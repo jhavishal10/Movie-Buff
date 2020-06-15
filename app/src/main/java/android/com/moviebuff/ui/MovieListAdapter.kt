@@ -41,6 +41,7 @@ class MovieListAdapter(private val adapterCallbackInterface: AdapterCallbackInte
                     .into(icon)
                 movieOverviewText.text = item.overviewText
                 ratingScore.rating = item.score
+                stars.text = item.score.toString() + " Rating"
             }
         }
     }

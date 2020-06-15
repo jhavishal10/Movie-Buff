@@ -13,7 +13,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlin.collections.set
 
-class ListViewModel(private val type: String, application: Application) : AndroidViewModel(application) {
+class ListViewModel(private val type: String, application: Application) :
+    AndroidViewModel(application) {
 
     private val fdsRepository: Repository by lazy {
         Repository.getInstance(getApplication<BaseApplication>().retrofitFactory)
@@ -24,14 +25,24 @@ class ListViewModel(private val type: String, application: Application) : Androi
         get() {
             return _moviesListLiveData
         }
+    private val movieList = mutableListOf<ListItem>()
+    private var page: Int = 1
+    private var totalPages: Int = 1
 
     init {
-        fetchFds()
+        fetchMovies()
     }
 
-    private fun fetchFds() {
+    fun loadMoreMovies() {
+        if (totalPages > page) {
+            page++
+            fetchMovies()
+        }
+    }
+
+    private fun fetchMovies() {
         queryMap["language"] = "en-US"
-        queryMap["page"] = "1"
+        queryMap["page"] = page
         viewModelScope.launch {
             _moviesListLiveData.value = ViewState.Loading
             when (val result = fdsRepository.getPopularMovieList(type, queryMap)) {
@@ -42,19 +53,21 @@ class ListViewModel(private val type: String, application: Application) : Androi
     }
 
     private fun addItemsToOverviewList(data: PopularMovieResponse) {
+        totalPages = data.totalPages ?: 0
         val list = mutableListOf<ListItem>()
         data.results?.forEach {
-            list.add(
+            movieList.add(
                 ListItem(
                     name = it?.originalTitle ?: "",
                     id = it?.id ?: 0,
                     icon = "https://image.tmdb.org/t/p/w500" + (it?.backdropPath),
                     overviewText = it?.overview ?: "",
-                    score = it?.voteAverage ?: 0f
+                    score = (it?.voteAverage) ?: 0f
                 )
             )
 
         }
+        list.addAll(movieList)
         _moviesListLiveData.value = ViewState.Data(MovieItemState.FragmentData(list))
     }
 

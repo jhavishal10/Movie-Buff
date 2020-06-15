@@ -15,22 +15,23 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="160dp"
-            app:layout_constraintEnd_toStartOf="@+id/ratingScore"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:gravity="center"
             android:lineSpacingMultiplier="1.1"
             android:textColor="@color/textColorPrimary"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/ratingScore"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/icon"
             tools:text="Avengers" />
@@ -41,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/chip_background"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
@@ -55,17 +56,28 @@
         <RatingBar
             android:id="@+id/ratingScore"
             style="@style/Widget.RatingBar"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="2dp"
+            android:numStars="10"
             android:paddingTop="4dp"
             android:paddingBottom="3dp"
-            android:stepSize="0.5"
+            android:stepSize="0.1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/icon"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:rating="5.0" />
+            app:layout_constraintStart_toEndOf="@+id/name"
+            app:layout_constraintTop_toBottomOf="@+id/icon"
+            tools:rating="8.1" />
+
+        <TextView
+            android:id="@+id/stars"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/ratingScore"
+            app:layout_constraintTop_toBottomOf="@+id/ratingScore"
+            tools:text="7.1 Stars" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

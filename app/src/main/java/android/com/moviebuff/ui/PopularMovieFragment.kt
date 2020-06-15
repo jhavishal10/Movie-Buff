@@ -2,6 +2,7 @@ package android.com.moviebuff.ui
 
 import android.app.Application
 import android.com.moviebuff.R
+import android.com.moviebuff.core.InfiniteScrollListener
 import android.com.moviebuff.core.ViewState
 import android.os.Bundle
 import android.view.View
@@ -50,9 +51,21 @@ class PopularMovieFragment : BaseFeatureFragment(), AdapterCallbackInterface {
     }
 
     private fun initUi() {
+        val infiniteScrollListener = object : InfiniteScrollListener() {
+            override fun onLoadMore() {
+                viewModel.loadMoreMovies()
+            }
+
+            override fun isDataLoading(): Boolean {
+                val uiModel = viewModel.moviesListLiveData.value
+                return uiModel is ViewState.Loading
+            }
+        }
         adapter = MovieListAdapter(this)
         rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv.adapter = adapter
+        rv.addOnScrollListener(infiniteScrollListener)
+
     }
 
     override fun cardClicked(task: ListItem) {
