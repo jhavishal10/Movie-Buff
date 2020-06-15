@@ -6,9 +6,11 @@ import android.com.moviebuff.core.SingletonHolder
 
 class Repository private constructor(retrofitFactory: RetrofitFactory) {
 
-    private val fdsApiService: ApiService = retrofitFactory.getApiService(ApiService::class.java) as ApiService
+    private val fdsApiService: ApiService =
+        retrofitFactory.getApiService(ApiService::class.java) as ApiService
 
-    suspend fun getResponse(queryMap: Map<String, Any>) = RemoteSource.safeApiCall { fdsApiService.getApiRepoList(queryMap) }
+    suspend fun getPopularMovieList(type: String, queryMap: Map<String, Any>) =
+        RemoteSource.safeApiCall { fdsApiService.getPopularMovieList(type, queryMap) }
 
     companion object : SingletonHolder<Repository, RetrofitFactory>(::Repository)
 }
