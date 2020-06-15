@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Movie Buff</string>
+    <string name="base_url">https://api.themoviedb.org/</string>
+    <string name="api_key">20f987800566d6046a13aceaffc90a03</string>
 </resources>
