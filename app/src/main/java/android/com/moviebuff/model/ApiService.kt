@@ -13,5 +13,11 @@ interface ApiService {
     suspend fun getPopularMovieList(
         @Path("type") type: String,
         @QueryMap queryMap: Map<String, Any>
-    ): Response<PopularMovieResponse>
+    ): Response<MoviesListResponse>
+
+    @GET("/3/movie/{id}")
+    suspend fun getMovieDetail(
+        @Path("id") id: Int,
+        @QueryMap queryMap: Map<String, Any>
+    ): Response<MovieDetailResponse>
 }

@@ -1,6 +1,7 @@
 package android.com.moviebuff.ui
 
 import android.com.moviebuff.R
+import android.com.moviebuff.core.DebouncedOnClickListener
 import android.com.moviebuff.ui.ListItem.Companion.DIFF_UTIL
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,10 @@ class MovieListAdapter(private val adapterCallbackInterface: AdapterCallbackInte
         RecyclerView.ViewHolder(view) {
 
         init {
+            itemView.debouncedOnClick {
+                val listItem = it.tag as ListItem
+                callback.cardClicked(listItem.id)
+            }
         }
 
         fun bind(item: ListItem) {
@@ -52,5 +57,13 @@ class MovieListAdapter(private val adapterCallbackInterface: AdapterCallbackInte
 }
 
 interface AdapterCallbackInterface {
-    fun cardClicked(task: ListItem)
+    fun cardClicked(id: Int)
+}
+
+inline fun View.debouncedOnClick(debounceTill: Long = 500, crossinline onClick: (v: View) -> Unit) {
+    this.setOnClickListener(object : DebouncedOnClickListener(debounceTill) {
+        override fun onDebouncedClick(v: View) {
+            onClick(v)
+        }
+    })
 }

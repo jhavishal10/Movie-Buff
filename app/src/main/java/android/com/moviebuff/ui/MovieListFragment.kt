@@ -4,6 +4,7 @@ import android.app.Application
 import android.com.moviebuff.R
 import android.com.moviebuff.core.InfiniteScrollListener
 import android.com.moviebuff.core.ViewState
+import android.com.moviebuff.ui.detail.MovieDetailActivity
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -13,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_popular_movie.*
 
-class PopularMovieFragment : BaseFeatureFragment(), AdapterCallbackInterface {
+class MovieListFragment : BaseFeatureFragment(), AdapterCallbackInterface {
     private lateinit var adapter: MovieListAdapter
     private lateinit var viewModel: ListViewModel
     private var content: String? = null
@@ -68,13 +69,10 @@ class PopularMovieFragment : BaseFeatureFragment(), AdapterCallbackInterface {
 
     }
 
-    override fun cardClicked(task: ListItem) {
-    }
-
     companion object {
 
-        fun newInstance(content: String): PopularMovieFragment {
-            val f = PopularMovieFragment()
+        fun newInstance(content: String): MovieListFragment {
+            val f = MovieListFragment()
             val args = Bundle()
             args.putString("content", content)
             f.arguments = args
@@ -92,6 +90,10 @@ class PopularMovieFragment : BaseFeatureFragment(), AdapterCallbackInterface {
 
             return ListViewModel(type, activity!!.application) as T
         }
+    }
+
+    override fun cardClicked(id: Int) {
+        startActivity(MovieDetailActivity.createIntent(context!!, id))
     }
 
 }

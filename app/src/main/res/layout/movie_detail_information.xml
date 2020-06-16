@@ -20,21 +20,59 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/adult"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_age"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Moderate Risk" />
 
         <TextView
-            android:id="@+id/name"
-            android:layout_width="0dp"
+            android:id="@+id/releaseDate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:gravity="center"
-            android:lineSpacingMultiplier="1.1"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/ratingScore"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/icon"
-            tools:text="Avengers" />
+            app:layout_constraintTop_toBottomOf="@id/ratingScore"
+            tools:text="Moderate Risk" />
+
+        <TextView
+            android:id="@+id/revenueText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/releaseDate"
+            tools:text="Moderate Risk" />
+
+        <TextView
+            android:id="@+id/budgetText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/revenueText"
+            tools:text="Moderate Risk" />
 
 
         <TextView
@@ -50,7 +88,7 @@
             android:paddingBottom="5dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/budgetText"
             tools:text="Moderate Risk" />
 
         <RatingBar
@@ -66,17 +104,17 @@
             android:paddingBottom="3dp"
             android:stepSize="0.1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/name"
             app:layout_constraintTop_toBottomOf="@+id/icon"
             tools:rating="8.1" />
 
         <TextView
             android:id="@+id/stars"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/ratingScore"
-            app:layout_constraintTop_toBottomOf="@+id/ratingScore"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ratingScore"
             tools:text="7.1 Stars" />
 
 

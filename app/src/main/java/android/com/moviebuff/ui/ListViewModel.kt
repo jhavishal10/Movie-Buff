@@ -4,7 +4,7 @@ import android.app.Application
 import android.com.moviebuff.api.BaseApplication
 import android.com.moviebuff.core.Result
 import android.com.moviebuff.core.ViewState
-import android.com.moviebuff.model.PopularMovieResponse
+import android.com.moviebuff.model.MoviesListResponse
 import android.com.moviebuff.model.Repository
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -52,7 +52,7 @@ class ListViewModel(private val type: String, application: Application) :
         }
     }
 
-    private fun addItemsToOverviewList(data: PopularMovieResponse) {
+    private fun addItemsToOverviewList(data: MoviesListResponse) {
         totalPages = data.totalPages ?: 0
         val list = mutableListOf<ListItem>()
         data.results?.forEach {

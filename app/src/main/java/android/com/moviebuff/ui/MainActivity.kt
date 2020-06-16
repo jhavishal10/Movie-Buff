@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -36,11 +34,11 @@ class MainActivity : AppCompatActivity() {
 
         override fun getItem(position: Int): Fragment {
             return when (position) {
-                0 -> PopularMovieFragment.newInstance("latest")
-                1 -> PopularMovieFragment.newInstance("now_playing")
-                2 -> PopularMovieFragment.newInstance("popular")
-                3 -> PopularMovieFragment.newInstance("upcoming")
-                else -> PopularMovieFragment.newInstance("top_rated")
+                0 -> MovieListFragment.newInstance("latest")
+                1 -> MovieListFragment.newInstance("now_playing")
+                2 -> MovieListFragment.newInstance("popular")
+                3 -> MovieListFragment.newInstance("upcoming")
+                else -> MovieListFragment.newInstance("top_rated")
             }
         }
 

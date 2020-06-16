@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 @Keep
-data class PopularMovieResponse(
+data class MoviesListResponse(
     val page: Int?,
     val results: List<Result?>?,
     @SerializedName("total_pages")
