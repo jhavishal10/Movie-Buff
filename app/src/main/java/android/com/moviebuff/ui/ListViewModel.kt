@@ -16,7 +16,7 @@ import kotlin.collections.set
 class ListViewModel(private val type: String, application: Application) :
     AndroidViewModel(application) {
 
-    private val fdsRepository: Repository by lazy {
+    private val repo: Repository by lazy {
         Repository.getInstance(getApplication<BaseApplication>().retrofitFactory)
     }
     private val queryMap = mutableMapOf<String, Any>()
@@ -45,7 +45,7 @@ class ListViewModel(private val type: String, application: Application) :
         queryMap["page"] = page
         viewModelScope.launch {
             _moviesListLiveData.value = ViewState.Loading
-            when (val result = fdsRepository.getPopularMovieList(type, queryMap)) {
+            when (val result = repo.getPopularMovieList(type, queryMap)) {
                 is Result.Success -> addItemsToOverviewList(result.data)
                 is Result.Error -> _moviesListLiveData.value = ViewState.Error(result.error.message)
             }
