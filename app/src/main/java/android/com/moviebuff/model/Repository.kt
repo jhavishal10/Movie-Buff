@@ -16,5 +16,8 @@ class Repository private constructor(retrofitFactory: RetrofitFactory) {
     suspend fun getMovieDetail(id: Int, queryMap: Map<String, Any>) =
         RemoteSource.safeApiCall { fdsApiService.getMovieDetail(id, queryMap) }
 
+    suspend fun getMovieVideo(id: Int, queryMap: Map<String, Any>) =
+        RemoteSource.safeApiCall { fdsApiService.getMovieVideo(id, queryMap) }
+
     companion object : SingletonHolder<Repository, RetrofitFactory>(::Repository)
 }

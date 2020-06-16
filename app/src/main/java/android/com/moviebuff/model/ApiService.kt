@@ -20,4 +20,10 @@ interface ApiService {
         @Path("id") id: Int,
         @QueryMap queryMap: Map<String, Any>
     ): Response<MovieDetailResponse>
+
+    @GET("/3/movie/{id}/videos")
+    suspend fun getMovieVideo(
+        @Path("id") id: Int,
+        @QueryMap queryMap: Map<String, Any>
+    ): Response<VideoResponse>
 }

@@ -1,5 +1,7 @@
 package android.com.moviebuff.ui.detail
 
+import android.com.moviebuff.ui.ListItem
+import android.com.moviebuff.ui.debouncedOnClick
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +12,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.movie_detail_information.view.*
 
-class MovieDetailAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MovieDetailAdapter(private val adapterCallbackInterface: AdapterCallback) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val list = mutableListOf<MovieDetailItem>()
+
+    override fun getItemViewType(position: Int): Int {
+        return list[position].viewType
+    }
 
     fun addItems(list: List<MovieDetailItem>) {
         this.list.clear()
@@ -20,13 +27,9 @@ class MovieDetailAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return list[position].viewType
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = parent.inflate(viewType)
-        return InformationViewHolder(view)
+        return InformationViewHolder(view, adapterCallbackInterface)
 
     }
 
@@ -43,11 +46,18 @@ class MovieDetailAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
 
-    inner class InformationViewHolder(view: View) :
+    inner class InformationViewHolder(view: View, callback: AdapterCallback) :
         RecyclerView.ViewHolder(view) {
+
+        init {
+            itemView.debouncedOnClick {
+                callback.cardClicked()
+            }
+        }
 
         fun bind(information: MovieDetailItem.Information) {
             with(itemView) {
+                tag = information
                 Glide.with(this)
                     .load(information.poster)
                     .apply(RequestOptions.centerCropTransform())
@@ -65,4 +75,8 @@ class MovieDetailAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+}
+
+interface AdapterCallback {
+    fun cardClicked()
 }

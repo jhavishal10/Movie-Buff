@@ -31,10 +31,10 @@ class MovieDetailViewModel(private val movieId: Int, application: Application) :
         }
 
     init {
-        getFdDetail()
+        getMovieDetail()
     }
 
-    private fun getFdDetail() {
+    private fun getMovieDetail() {
         queryMap["language"] = "en-US"
         viewModelScope.launch {
             _movieDetailLiveData.value = ViewState.Loading
@@ -58,11 +58,11 @@ class MovieDetailViewModel(private val movieId: Int, application: Application) :
             MovieDetailItem.Information(
                 poster = "https://image.tmdb.org/t/p/w500" + data.backdropPath,
                 rating = data.voteAverage ?: 0.0f,
-                releaseDate = "Released On "+data.releaseDate ,
+                releaseDate = "Released On " + data.releaseDate,
                 adult = data.adult == true,
                 budget = "Production Cost is " + data.budget.shortDollarString(),
                 status = data.status ?: "",
-                revenue = "Revenue Generated " +data.revenue.shortDollarString(),
+                revenue = "Revenue Generated " + data.revenue.shortDollarString(),
                 overviewText = data.overview ?: ""
             )
         )
@@ -105,8 +105,26 @@ class MovieDetailViewModel(private val movieId: Int, application: Application) :
     }
 
     fun toDollar(number: Number?): String {
-        return if (number == null) "$0" else "${NumberFormat.getCurrencyInstance(Locale.US)
-            .format(number)}"
+        return if (number == null) "$0" else NumberFormat.getCurrencyInstance(Locale.US)
+            .format(number)
     }
+
+    fun getMovieVideo() {
+        viewModelScope.launch {
+            when (val result = repository.getMovieVideo(movieId, queryMap)) {
+                is android.com.moviebuff.core.Result.Success -> {
+                    result.data.results?.forEach {
+                        if (it?.site == "YouTube") {
+                            _movieDetailLiveData.value = ViewState.Data(MovieDetailState.Video(it.key!!))
+                            return@launch
+                        }
+                    }
+                }
+                is android.com.moviebuff.core.Result.Error -> _movieDetailLiveData.value =
+                    ViewState.Error(result.error.message)
+            }
+        }
+    }
+
 
 }

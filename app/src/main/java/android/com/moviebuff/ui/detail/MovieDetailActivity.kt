@@ -6,6 +6,7 @@ import android.com.moviebuff.core.ViewState
 import android.com.moviebuff.ui.CoreActivity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_movie_details.*
 
-class MovieDetailActivity : CoreActivity() {
+class MovieDetailActivity : CoreActivity(), AdapterCallback {
 
     private val id by lazy { intent.getIntExtra("id", 1) }
 
@@ -29,7 +30,7 @@ class MovieDetailActivity : CoreActivity() {
 
     private fun initUi() {
 
-        adapter = MovieDetailAdapter()
+        adapter = MovieDetailAdapter(this)
         movieDetailRv.layoutManager = LinearLayoutManager(this)
         movieDetailRv.itemAnimator = null
         movieDetailRv.adapter = adapter
@@ -56,6 +57,12 @@ class MovieDetailActivity : CoreActivity() {
         when (data) {
             is MovieDetailState.Title -> toolBar.text = data.title
             is MovieDetailState.Data -> adapter.addItems(data.list)
+            is MovieDetailState.Video -> startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://www.youtube.com/watch?v=" + data.url)
+                )
+            )
         }
     }
 
@@ -76,6 +83,10 @@ class MovieDetailActivity : CoreActivity() {
         fun createIntent(context: Context, id: Int): Intent {
             return Intent(context, MovieDetailActivity::class.java).putExtra("id", id)
         }
+    }
+
+    override fun cardClicked() {
+        viewModel.getMovieVideo()
     }
 
 }

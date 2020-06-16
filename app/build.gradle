@@ -94,4 +94,8 @@ dependencies {
     //material design
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.10.5'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.10.5'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.10.5'
+    implementation 'com.github.HaarigerHarald:android-youtubeExtractor:v1.7.0'
 }
