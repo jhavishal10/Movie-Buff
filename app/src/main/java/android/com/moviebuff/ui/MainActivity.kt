@@ -33,13 +33,7 @@ class MainActivity : AppCompatActivity() {
         private val fragments: SparseArray<Fragment> = SparseArray()
 
         override fun getItem(position: Int): Fragment {
-            return when (position) {
-                0 -> MovieListFragment.newInstance("latest")
-                1 -> MovieListFragment.newInstance("now_playing")
-                2 -> MovieListFragment.newInstance("popular")
-                3 -> MovieListFragment.newInstance("upcoming")
-                else -> MovieListFragment.newInstance("top_rated")
-            }
+            return MovieListFragment.newInstance("now_playing")
         }
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -54,17 +48,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
-            return when (position) {
-                0 -> "Latest"
-                1 -> "Now Playing"
-                2 -> "Popular"
-                3 -> "Upcoming"
-                else -> "Top Rated"
-            }
+            return "Now Playing"
         }
 
         override fun getCount(): Int {
-            return 5
+            return 1
         }
     }
 }

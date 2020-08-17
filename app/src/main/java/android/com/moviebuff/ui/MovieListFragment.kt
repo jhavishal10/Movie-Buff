@@ -63,9 +63,9 @@ class MovieListFragment : BaseFeatureFragment(), AdapterCallbackInterface {
             }
         }
         adapter = MovieListAdapter(this)
-        rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv.adapter = adapter
-        rv.addOnScrollListener(infiniteScrollListener)
+//        rv.addOnScrollListener(infiniteScrollListener)
 
     }
 

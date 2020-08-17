@@ -17,6 +17,15 @@ class MovieListAdapter(private val adapterCallbackInterface: AdapterCallbackInte
     ListAdapter<ListItem, MovieListAdapter.MovieItemViewHolder>(DIFF_UTIL) {
 
 
+    override fun getItemCount(): Int {
+        return if (currentList == null) 0 else (currentList.size*2)
+    }
+
+    override fun getItem(position: Int): ListItem {
+        val positionInList: Int = position % currentList.size
+        return currentList[positionInList]
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
