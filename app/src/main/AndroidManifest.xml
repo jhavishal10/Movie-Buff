@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:name=".api.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
-        <activity android:name=".ui.player.Player"></activity>
+        <activity android:name=".ui.player.Player"/>
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +30,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.detail.MovieDetailActivity" />
-        <activity android:name=".ui.player.VideoPlayerActivity" />
     </application>
 
 </manifest>

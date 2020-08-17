@@ -4,9 +4,9 @@ import android.app.Application
 import android.com.moviebuff.R
 import android.com.moviebuff.core.ViewState
 import android.com.moviebuff.ui.CoreActivity
+import android.com.moviebuff.ui.player.Player
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -38,7 +38,7 @@ class MovieDetailActivity : CoreActivity(), AdapterCallback {
 
     override fun initViewModel() {
         viewModel = ViewModelProvider(this, MovieDetailViewModelFactory(id, application)).get(
-            MovieDetailViewModel::class.java
+                MovieDetailViewModel::class.java
         )
         viewModel.movieDetailLiveData.observe(this, Observer<ViewState<MovieDetailState>> {
             when (it) {
@@ -52,22 +52,23 @@ class MovieDetailActivity : CoreActivity(), AdapterCallback {
         })
     }
 
+    //    startActivity(
+//    Intent(
+//    Intent.ACTION_VIEW,
+//    Uri.parse("http://www.youtube.com/watch?v=" + data.url)
+//    )
+//    )
     private fun loadUiBasedOnData(data: MovieDetailState) {
         hideProgress()
         when (data) {
             is MovieDetailState.Title -> toolBar.text = data.title
             is MovieDetailState.Data -> adapter.addItems(data.list)
-            is MovieDetailState.Video -> startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("http://www.youtube.com/watch?v=" + data.url)
-                )
-            )
+            is MovieDetailState.Video -> startActivity(Intent(this, Player::class.java))
         }
     }
 
     inner class MovieDetailViewModelFactory(private val fdId: Int, application: Application) :
-        ViewModelProvider.AndroidViewModelFactory(application) {
+            ViewModelProvider.AndroidViewModelFactory(application) {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass != MovieDetailViewModel::class.java) {

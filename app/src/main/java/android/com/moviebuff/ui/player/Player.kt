@@ -6,16 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import at.huber.youtubeExtractor.VideoMeta
-import at.huber.youtubeExtractor.YouTubeExtractor
-import at.huber.youtubeExtractor.YtFile
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.source.dash.DashMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -33,9 +30,7 @@ class Player : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         playerView = findViewById(R.id.video_view)
-        extractYoutubeUrl()
-//        initializePlayer()
-        val youtubeLink = "http://youtube.com/watch?v=xxxx"
+        initializePlayer()
 
 
     }
@@ -43,32 +38,16 @@ class Player : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (Util.SDK_INT >= 24) {
-//            initializePlayer()
+            initializePlayer()
         }
     }
-    private fun extractYoutubeUrl() {
-        @SuppressLint("StaticFieldLeak") val mExtractor: YouTubeExtractor =
-            object : YouTubeExtractor(this) {
-                override fun onExtractionComplete(
-                    sparseArray: SparseArray<YtFile>,
-                    videoMeta: VideoMeta
-                ) {
-                    if (sparseArray != null) {
-                        playVideo(sparseArray[17].url)
-                    }
-                }
-            }
-        mExtractor.extract("https://www.youtube.com/watch?v=uZnWUZW1hQo", true, true)
-    }
-    private fun playVideo(downloadUrl: String) {
-        initializePlayer(downloadUrl)
-    }
+
 
     override fun onResume() {
         super.onResume()
         hideSystemUi()
         if ((Util.SDK_INT <= 23 || player == null)) {
-//            initializePlayer()
+            initializePlayer()
         }
     }
 
@@ -105,11 +84,20 @@ class Player : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
-    private fun initializePlayer(url: String) {
-        player = ExoPlayerFactory.newSimpleInstance(this)
+
+    private fun initializePlayer() {
+        if (player == null) {
+            val trackSelector = DefaultTrackSelector()
+            trackSelector.setParameters(
+                    trackSelector.buildUponParameters().setMaxVideoSizeSd()
+            )
+            player = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
+        }
+
         playerView!!.player = player
-        val uri = Uri.parse(url)
+        val uri = Uri.parse(getString(R.string.media_url_dash))
         val mediaSource = buildMediaSource(uri)
+
         player!!.playWhenReady = playWhenReady
         player!!.seekTo(currentWindow, playbackPosition)
         player!!.prepare(mediaSource, false, false)
@@ -117,9 +105,8 @@ class Player : AppCompatActivity() {
 
     private fun buildMediaSource(uri: Uri): MediaSource? {
         val dataSourceFactory: DataSource.Factory =
-            DefaultDataSourceFactory(this, "exoplayer-codelab")
-        return ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(uri)
+                DefaultDataSourceFactory(this, "exoplayer-codelab")
+        return DashMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
     }
 
     companion object {

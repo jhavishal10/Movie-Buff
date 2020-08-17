@@ -17,7 +17,7 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 
 class MovieDetailViewModel(private val movieId: Int, application: Application) :
-    AndroidViewModel(application) {
+        AndroidViewModel(application) {
     private val repository: Repository by lazy {
         Repository.getInstance(getApplication<BaseApplication>().retrofitFactory)
     }
@@ -41,7 +41,7 @@ class MovieDetailViewModel(private val movieId: Int, application: Application) :
             when (val result = repository.getMovieDetail(movieId, queryMap)) {
                 is android.com.moviebuff.core.Result.Success -> loadDataIntoUi(result.data)
                 is android.com.moviebuff.core.Result.Error -> _movieDetailLiveData.value =
-                    ViewState.Error(result.error.message)
+                        ViewState.Error(result.error.message)
             }
         }
     }
@@ -49,22 +49,22 @@ class MovieDetailViewModel(private val movieId: Int, application: Application) :
     private fun loadDataIntoUi(data: MovieDetailResponse) {
         addFdDetails(data)
         _movieDetailLiveData.value =
-            ViewState.Data(MovieDetailState.Title(data.originalTitle ?: "Movie"))
+                ViewState.Data(MovieDetailState.Title(data.originalTitle ?: "Movie"))
     }
 
     private fun addFdDetails(data: MovieDetailResponse) {
         val list = mutableListOf<MovieDetailItem>()
         list.add(
-            MovieDetailItem.Information(
-                poster = "https://image.tmdb.org/t/p/w500" + data.backdropPath,
-                rating = data.voteAverage ?: 0.0f,
-                releaseDate = "Released On " + data.releaseDate,
-                adult = data.adult == true,
-                budget = "Production Cost is " + data.budget.shortDollarString(),
-                status = data.status ?: "",
-                revenue = "Revenue Generated " + data.revenue.shortDollarString(),
-                overviewText = data.overview ?: ""
-            )
+                MovieDetailItem.Information(
+                        poster = "https://image.tmdb.org/t/p/w500" + data.backdropPath,
+                        rating = data.voteAverage ?: 0.0f,
+                        releaseDate = "Released On " + data.releaseDate,
+                        adult = data.adult == true,
+                        budget = "Production Cost is " + data.budget.shortDollarString(),
+                        status = data.status ?: "",
+                        revenue = "Revenue Generated " + data.revenue.shortDollarString(),
+                        overviewText = data.overview ?: ""
+                )
         )
 
 
@@ -72,7 +72,7 @@ class MovieDetailViewModel(private val movieId: Int, application: Application) :
         _movieDetailLiveData.value = ViewState.Data(MovieDetailState.Data(list))
     }
 
-    fun Number?.shortDollarString(hideThousands: Boolean = true): String {
+    private fun Number?.shortDollarString(hideThousands: Boolean = true): String {
         if (this == null) return ""
         val value = toDouble() // forget decimals in short form
         val absolute = abs(value)
@@ -98,15 +98,15 @@ class MovieDetailViewModel(private val movieId: Int, application: Application) :
         return toDollar(this)
     }
 
-    fun Double.toFixed(decimals: Int): String {
+    private fun Double.toFixed(decimals: Int): String {
         if (this == 0.0) return "0"
         val factor = 10.0.pow(decimals.toDouble())
         return ((this * factor).roundToInt() / factor).toString()
     }
 
-    fun toDollar(number: Number?): String {
+    private fun toDollar(number: Number?): String {
         return if (number == null) "$0" else NumberFormat.getCurrencyInstance(Locale.US)
-            .format(number)
+                .format(number)
     }
 
     fun getMovieVideo() {
@@ -121,7 +121,7 @@ class MovieDetailViewModel(private val movieId: Int, application: Application) :
                     }
                 }
                 is android.com.moviebuff.core.Result.Error -> _movieDetailLiveData.value =
-                    ViewState.Error(result.error.message)
+                        ViewState.Error(result.error.message)
             }
         }
     }

@@ -1,6 +1,5 @@
 package android.com.moviebuff.ui.detail
 
-import android.com.moviebuff.ui.ListItem
 import android.com.moviebuff.ui.debouncedOnClick
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.movie_detail_information.view.*
 
 class MovieDetailAdapter(private val adapterCallbackInterface: AdapterCallback) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val list = mutableListOf<MovieDetailItem>()
 
@@ -47,7 +46,7 @@ class MovieDetailAdapter(private val adapterCallbackInterface: AdapterCallback) 
 
 
     inner class InformationViewHolder(view: View, callback: AdapterCallback) :
-        RecyclerView.ViewHolder(view) {
+            RecyclerView.ViewHolder(view) {
 
         init {
             itemView.debouncedOnClick {
@@ -59,10 +58,10 @@ class MovieDetailAdapter(private val adapterCallbackInterface: AdapterCallback) 
             with(itemView) {
                 tag = information
                 Glide.with(this)
-                    .load(information.poster)
-                    .apply(RequestOptions.centerCropTransform())
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(icon)
+                        .load(information.poster)
+                        .apply(RequestOptions.centerCropTransform())
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(icon)
                 movieOverviewText.text = information.overviewText
                 stars.text = information.rating.toString() + " Rating"
                 ratingScore.rating = information.rating
